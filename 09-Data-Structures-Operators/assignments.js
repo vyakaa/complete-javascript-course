@@ -329,80 +329,76 @@ for (let i = 0; i < books.length; i++) {
   console.log(books[i].highlighted);
 }
 
-// Coding challenge
-const game = {
-  team1: 'Bayern Munich',
-  team2: 'Borrussia Dortmund',
-  players: [
-    [
-      'Neuer',
-      'Pavard',
-      'Martinez',
-      'Alaba',
-      'Davies',
-      'Kimmich',
-      'Goretzka',
-      'Coman',
-      'Muller',
-      'Gnarby',
-      'Lewandowski',
-    ],
-    [
-      'Burki',
-      'Schulz',
-      'Hummels',
-      'Akanji',
-      'Hakimi',
-      'Weigl',
-      'Witsel',
-      'Hazard',
-      'Brandt',
-      'Sancho',
-      'Gotze',
-    ],
-  ],
-  score: '4:0',
-  scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
-  date: 'Nov 9th, 2037',
-  odds: {
-    team1: 1.33,
-    x: 3.25,
-    team2: 6.5,
-  },
+// Looping arrays: the for-of loop
+let pageSum = 0;
+
+for (const book of books) {
+  pageSum += book.pages;
+}
+console.log(pageSum);
+
+const allAuthors = [];
+for (const book of books) {
+  if (typeof book.author === 'string') {
+    allAuthors.push(book.author);
+  } else {
+    for (const author of book.author) {
+      allAuthors.push(author);
+    }
+  }
+}
+console.log(allAuthors);
+
+for (const [index, author] of allAuthors.entries()) {
+  console.log(`${index + 1}: ${author}`);
+}
+
+// Enhanced object literals
+const bookData = [
+  ['title', 'Computer Networking: A Top-Down Approach'],
+  ['author', ['James F. Kurose', 'Keith W. Ross']],
+  ['publisher', 'Addison Wesley'],
+];
+
+const newBook = {
+  [bookData[0][0]]: bookData[0][1],
+  [bookData[1][0]]: bookData[1][1],
+  [bookData[2][0]]: bookData[2][1],
+};
+console.log(newBook);
+
+const pages = 880;
+
+const newBook2 = {
+  title: 'The C Programming Language',
+  author: ['Brian W. Kernighan', 'Dennis M. Ritchie'],
+  pages,
 };
 
-// 1
-const [players1, players2] = game.players;
-console.log(players1, players2);
+console.log(newBook2);
 
-// 2
-const [gk, ...fieldPlayers] = players1;
-console.log(gk, fieldPlayers);
+// Optional chaining (?.)
+function getFirstKeyword(book) {
+  return book.keywords?.[0];
+}
+console.log(getFirstKeyword(books[0]));
 
-// 3
-const allPlayers = [...players1, ...players2];
-console.log(allPlayers);
+// Looping objects: object keys, values and entries
+const entries = [];
 
-// 4
-const players1Final = [...players1, 'Thiago', 'Coutinho', 'Perisic'];
-console.log(players1Final);
+for (const key of Object.keys(books[0].thirdParty.goodreads)) {
+  entries.push([key]);
+}
 
-// 5
-const {
-  odds: { team1, x: draw, team2 },
-} = game;
-console.log(team1, draw, team2);
+console.log(entries);
 
-// 6
-const printGoals = function (...players) {
-  console.log(players);
-  console.log(`${players.length} goals were scored`);
-};
+for (const [index, value] of Object.values(
+  books[0].thirdParty.goodreads
+).entries()) {
+  entries[index].push(value);
+}
 
-printGoals('Davies', 'Muller', 'Lewandowski', 'Kimmich');
-printGoals('Davies', 'Muller');
-printGoals(...game.scored);
+console.log(entries);
 
-// 7
-team1 < team2 && console.log('Team 1 is more likely to win');
-team1 > team2 && console.log('Team 2 is more likely to win');
+const entries2 = Object.entries(books[0].thirdParty.goodreads);
+console.log(entries2);
