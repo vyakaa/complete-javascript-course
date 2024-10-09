@@ -402,3 +402,41 @@ console.log(entries);
 
 const entries2 = Object.entries(books[0].thirdParty.goodreads);
 console.log(entries2);
+
+// Sets
+const allKeywords = [];
+for (const book of books) {
+  allKeywords.push(...book.keywords);
+}
+console.log(allKeywords);
+
+const uniqueKeywords = new Set(allKeywords);
+console.log(uniqueKeywords);
+
+uniqueKeywords.add('coding');
+uniqueKeywords.add('science');
+
+uniqueKeywords.delete('business');
+console.log(uniqueKeywords);
+
+const uniqueKeywordsArr = [...uniqueKeywords];
+console.log(uniqueKeywordsArr);
+uniqueKeywords.clear();
+
+// Maps
+const bookMap = new Map([
+  ['title', 'Clean Code'],
+  ['author', 'Robert C. Martin'],
+]);
+bookMap.set('pages', 464);
+console.log(bookMap);
+console.log(`${bookMap.get('title')} by ${bookMap.get('author')}`);
+console.log(bookMap.size);
+if (bookMap.has('author')) console.log('The author of the book is known');
+
+const firstBookMap = new Map(Object.entries(books[0]));
+console.log(firstBookMap);
+
+for (const [key, value] of firstBookMap) {
+  if (typeof value === 'number') console.log(key);
+}
