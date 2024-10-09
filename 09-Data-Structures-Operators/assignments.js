@@ -440,3 +440,99 @@ console.log(firstBookMap);
 for (const [key, value] of firstBookMap) {
   if (typeof value === 'number') console.log(key);
 }
+
+// Working with strings
+const isbn = books[0].ISBN;
+console.log(isbn[6] + isbn[4] + isbn[9] + isbn[8]);
+
+const quote =
+  'A computer once beat me at chess, but it was no match for me at kick boxing';
+console.log(quote.indexOf('chess'));
+
+console.log(quote.slice(quote.lastIndexOf(' ') + 1));
+
+function isContributor(authorName) {
+  const flag = authorName.endsWith('(Contributor)');
+  //const flag = authorName.lastIndexOf('(Contributor)') !== -1;
+  console.log(flag);
+  return flag;
+}
+
+isContributor('Julie Sussman (Contributor)');
+
+function normalizeAuthorName(authorName) {
+  const names = authorName
+    .replace('(Contributor)', '')
+    .toLowerCase()
+    .trim()
+    .split(' ');
+  const namesUpper = [];
+  for (const n of names) {
+    namesUpper.push(n.replace(n[0], n[0].toUpperCase()));
+  }
+
+  const normalizedAuthorName = namesUpper.join(' ');
+  console.log(normalizedAuthorName);
+  return normalizedAuthorName;
+}
+
+normalizeAuthorName('  JuliE sussMan (Contributor)');
+
+const newBookTitle = books[1].title.replace('Programs', 'Software');
+console.log(newBookTitle);
+
+function logBookTheme(title) {
+  const normalizedTitle = title.trim().toLowerCase();
+  let theme = '';
+  if (normalizedTitle.startsWith('computers')) theme = 'computers';
+  else if (
+    normalizedTitle.includes('algorithms') &&
+    normalizedTitle.includes('structures')
+  )
+    theme = 'algorithms and data structures';
+  else if (
+    normalizedTitle.endsWith('system') ||
+    (normalizedTitle.endsWith('systems') &&
+      !normalizedTitle.includes('operating'))
+  )
+    theme = 'some systems, but definitely not about operating systems';
+  console.log(`This book is about ${theme}`);
+}
+
+const bookCategories =
+  'science;computing;computer science;algorithms;business;operating systems;networking;electronics';
+
+function logBookCategories(categories) {
+  categories = categories.trim().toLowerCase().split(';');
+  for (const cat of categories) console.log(cat);
+}
+
+logBookCategories(bookCategories);
+
+function getKeywordsAsString(books) {
+  const keywords = [];
+  for (const book of books) {
+    keywords.push(...book.keywords);
+  }
+  const keywordsSet = new Set(keywords);
+  const str = [...keywordsSet].join(';');
+  console.log(str);
+}
+
+getKeywordsAsString(books);
+
+const bookChapters = [
+  ['The Basics', 14],
+  ['Sorting', 254],
+  ['Searching', 372],
+  ['Graphs', 526],
+  ['Strings', 706],
+];
+
+function logBookChapters(chapters) {
+  for (const [chapter, page] of chapters) {
+    console.log(`${chapter.padEnd(30, '_')}${page}`);
+  }
+}
+
+logBookChapters(bookChapters);

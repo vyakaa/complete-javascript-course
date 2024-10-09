@@ -4,6 +4,130 @@
 const flights =
   '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
 
+const airline = 'Ukrainian International Airlines';
+const plane = 'F16';
+
+console.log(plane[0]);
+console.log(plane[1]);
+console.log(plane[2]);
+
+console.log('B737'[0]);
+console.log(airline.length);
+console.log(airline.indexOf('r'));
+console.log(airline.lastIndexOf('r'));
+console.log(airline.indexOf('national'));
+
+console.log(airline.slice(10, 24));
+
+console.log(airline.slice(0, airline.indexOf(' ')));
+console.log(airline.slice(airline.lastIndexOf(' ') + 1));
+console.log(airline.slice(1, -1));
+
+const checkMiddleSeat = function (seat) {
+  // B and E are middle seats
+  const s = seat.slice(-1);
+  if (s === 'B' || s === 'E') console.log('You got the middle seat 😊');
+  else console.log('You got lucky 😎');
+};
+
+checkMiddleSeat('11B');
+checkMiddleSeat('23C');
+checkMiddleSeat('3E');
+
+// Fix capitalization in name
+const passenger = 'jOnAS';
+const passengerLower = passenger.toLowerCase();
+const passengerCorrect =
+  passengerLower[0].toUpperCase() + passengerLower.slice(1);
+console.log(passengerCorrect);
+
+// Comparing emails
+const email = 'hello@jonas.io';
+const loginEmail = ' Hello@Jonas.Io \n';
+
+const normalizedEmail = loginEmail.toLowerCase().trim();
+console.log(normalizedEmail);
+console.log(email === normalizedEmail);
+
+// Replacing
+const priceGB = '288,97£';
+const priceUS = priceGB.replace('£', '$').replace(',', '.');
+console.log(priceUS);
+
+const announcement =
+  'All passengers come to boarding door 23. Boarding door 23!';
+console.log(announcement.replace('door', 'gate'));
+console.log(announcement.replace(/door/g, 'gate'));
+
+// Booleans
+const plane1 = 'Airbus A320neo';
+console.log(plane1.includes('A320'));
+console.log(plane1.startsWith('Air'));
+
+if (plane1.startsWith('Airbus') && plane1.endsWith('neo')) {
+  console.log('Part of the NEW AIRBUS family');
+}
+
+// Practice exercise
+const checkBaggage = function (items) {
+  const baggage = items.toLowerCase();
+  if (baggage.includes('knife') || baggage.includes('gun'))
+    console.log('You are NOT allowed on board');
+  else {
+    console.log('Welcome aboard!');
+  }
+};
+
+checkBaggage('I have a laptop, some Food and a pocket Knife');
+checkBaggage('Socks and camera');
+checkBaggage('Got some snacks and a gun for protection');
+
+// Split & join
+console.log('a+very+nice+string'.split('+'));
+const [firstName, lastName] = 'Jonas Schmedtmann'.split(' ');
+const newName = ['Mr.', firstName, lastName.toUpperCase()].join(' ');
+console.log(newName);
+
+// Capitalize a name
+const capitalizeName = function (name) {
+  const names = name.split(' ');
+  const namesUpper = [];
+  for (const n of names) {
+    //namesUpper.push(n[0].toUpperCase() + n.slice(1));
+    namesUpper.push(n.replace(n[0], n[0].toUpperCase()));
+  }
+
+  console.log(namesUpper.join(' '));
+};
+capitalizeName('jessica ann smith davis');
+
+// Padding a string
+const message = 'Go to gate 23!';
+console.log(message.padStart(25, '+'));
+
+// Credit card number masking
+const maskCreditCard = function (number) {
+  const str = number + '';
+  const last4 = str.slice(-4);
+  return last4.padStart(str.length, '*');
+};
+
+console.log(maskCreditCard(43378463864728623));
+console.log(maskCreditCard('736762736453453462363'));
+
+// Repeat
+const message2 = 'Bad weather... All departures delayed...';
+console.log(message2.repeat(5));
+
+const planesInLine = function (n) {
+  console.log(`There are ${n} planes in line ${'✈️'.repeat(n)}`);
+};
+
+planesInLine(5);
+planesInLine(3);
+planesInLine(12);
+
+/*
 // Data needed for first part of the section
 const weekdays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 const openingHours = {
@@ -51,6 +175,7 @@ const restaurant = {
   },
 };
 
+/*
 // Sets and maps
 const ordersSet = new Set([
   'Pasta',
@@ -153,6 +278,7 @@ console.log(question.get(question.get('correct') === answer));
 
 // Convert map to array
 console.log([...question]);
+*/
 /*
 // Looping objects
 // Property names
@@ -206,7 +332,7 @@ for (const [i, el] of menu.entries()) {
 
 console.log([...menu.entries()]);
 */
-
+/*
 restaurant.orderDelivery({
   time: '22:30',
   address: 'Via del Sole 21',
@@ -229,7 +355,8 @@ const rest2 = {
   name: 'La Piazza',
   owner: 'Giovanni Rossi',
 };
-
+*/
+/*
 // OR assignment operator
 // rest1.numGuests = rest1.numGuests || 10;
 // rest2.numGuests = rest2.numGuests || 10;
