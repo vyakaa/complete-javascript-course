@@ -1,7 +1,5 @@
 'use strict';
 
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
 // BANKIST APP
 
 // Data
@@ -10,6 +8,7 @@ const account1 = {
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
   interestRate: 1.2, // %
   pin: 1111,
+  type: 'premium',
 };
 
 const account2 = {
@@ -17,6 +16,7 @@ const account2 = {
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
+  type: 'standard',
 };
 
 const account3 = {
@@ -24,6 +24,7 @@ const account3 = {
   movements: [200, -200, 340, -300, -20, 50, 400, -460],
   interestRate: 0.7,
   pin: 3333,
+  type: 'premium',
 };
 
 const account4 = {
@@ -31,6 +32,7 @@ const account4 = {
   movements: [430, 1000, 700, 50, 90],
   interestRate: 1,
   pin: 4444,
+  type: 'basic',
 };
 
 const accounts = [account1, account2, account3, account4];
@@ -61,9 +63,12 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = ''; // clear existing content
-  movements.forEach(function (mov, i) {
+
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const html = `
       <div class="movements__row">
@@ -205,6 +210,14 @@ btnClose.addEventListener('click', function (e) {
   }
 });
 
+let sorted = false;
+
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
+});
+
 /////////////////////////////////////////////////
 
 let arr = ['a', 'b', 'c', 'd', 'e'];
@@ -324,7 +337,7 @@ const movementsDescriptions = movements.map(
 console.log(movementsDescriptions);
 
 // FILTER method
-const deposits = movements.filter(function (mov) {
+/* const deposits = movements.filter(function (mov) {
   return mov > 0;
 });
 console.log(movements);
@@ -340,6 +353,7 @@ console.log(depositsFor);
 
 const withdrawals = movements.filter(mov => mov < 0);
 console.log(withdrawals);
+*/
 
 // REDUCE method
 // accumulator -> SNOWBALL
@@ -433,3 +447,168 @@ const overallBalance2 = accounts
   .flatMap(acc => acc.movements)
   .reduce((acc, mov) => acc + mov, 0);
 console.log(overallBalance2);
+
+const owners = ['Jonas', 'Zach', 'Adam', 'Martha'];
+console.log(owners.sort());
+console.log(owners); // original array is mutated
+
+// Numbers
+console.log(movements);
+console.log(movements.sort()); // sorts as strings by default, alphabetically
+// return < 0, A, B (keep order)
+// return > 0, B, A (switch order)
+
+// Ascending
+movements.sort((a, b) => {
+  if (a > b) return 1;
+  if (a < b) return -1;
+});
+const movementsSort = movements.slice().sort((a, b) => a - b);
+console.log(movementsSort);
+console.log(movements); // original array is not mutated due to slice() creating a shallow copy
+
+// Descending
+movements.sort((a, b) => {
+  if (a > b) return -1;
+  if (a < b) return 1;
+});
+const movementsSortDesc = movements.slice().sort((a, b) => b - a);
+console.log(movementsSortDesc);
+
+// Array grouping
+const groupedMovements = Object.groupBy(movements, mov =>
+  mov > 0 ? 'deposits' : 'withdrawals',
+);
+console.log(groupedMovements);
+
+const groupedByActivity = Object.groupBy(accounts, acc => {
+  const movementCount = acc.movements.length;
+  if (movementCount >= 8) return 'very active';
+  if (movementCount >= 4) return 'active';
+  if (movementCount >= 1) return 'moderate';
+  return 'inactive';
+});
+console.log(groupedByActivity);
+
+// const groupedAccounts = Object.groupBy(accounts, acc => acc.type);
+const groupedAccounts = Object.groupBy(accounts, ({ type }) => type);
+console.log(groupedAccounts);
+
+// More ways of creating and filling arrays
+// Empty arrays + fill method
+const x = new Array(7);
+console.log(x); // [ <7 empty items> ]
+console.log(x.map(() => 5)); // [ <7 empty items> ] - map method won't work on empty arrays
+
+x.fill(1, 3, 5); // fills with 1 from index 3 to index 5 (not inclusive)
+console.log(x); // [ <3 empty items>, 1, 1, <2 empty items> ]
+
+x.fill(2); // fills all array elements with 2
+console.log(x); // [ 2, 2, 2, 2, 2, 2, 2 ]
+
+// Array.from method
+const y = Array.from({ length: 7 }, () => 1);
+console.log(y); // [1, 1, 1, 1, 1, 1, 1]
+
+const z = Array.from({ length: 7 }, (_, i) => i + 1);
+console.log(z); // [1, 2, 3, 4, 5, 6, 7]
+
+const randomDiceRolls = Array.from(
+  { length: 100 },
+  () => Math.trunc(Math.random() * 6) + 1,
+);
+console.log(randomDiceRolls);
+
+labelBalance.addEventListener('click', function () {
+  const movementsUI = Array.from(
+    document.querySelectorAll('.movements__value'),
+    el => Number(el.textContent.replace('€', '')),
+  );
+  console.log(movementsUI);
+});
+
+const movementsUI2 = [...document.querySelectorAll('.movements__value')].map(
+  el => Number(el.textContent.replace('€', '')),
+);
+console.log(movementsUI2);
+
+// Non-destructive alternatives: toReversed, toSorted, toSpliced, with (ES2023)
+const reversedMovements = movements.toReversed();
+console.log(movements);
+console.log(reversedMovements);
+
+const sortedMovements = movements.toSorted();
+console.log(movements);
+console.log(sortedMovements);
+
+const splicedMovements = movements.toSpliced(1, 3);
+console.log(movements);
+console.log(splicedMovements);
+
+movements[1] = 2000;
+console.log(movements);
+const newMovements = movements.with(1, 2000); // creates a new array with the value at index 1 changed to 2000
+console.log(newMovements);
+
+// Array methods practice
+// 1.
+const bankDepositSum = accounts
+  .flatMap(acc => acc.movements)
+  .filter(mov => mov > 0)
+  .reduce((sum, cur) => sum + cur, 0);
+console.log(bankDepositSum);
+
+// 2.
+const numDeposits1000 = accounts
+  .flatMap(acc => acc.movements)
+  .filter(mov => mov > 1000).length;
+console.log(numDeposits1000);
+
+// Alternative using reduce
+const numDeposits1000reduce = accounts
+  .flatMap(acc => acc.movements)
+  .reduce((count, cur) => (cur >= 1000 ? ++count : count), 0);
+console.log(numDeposits1000reduce);
+
+// 3.
+const { deposits, withdrawals } = accounts
+  .flatMap(acc => acc.movements)
+  .reduce(
+    (sums, cur) => {
+      // cur > 0 ? (sums.deposits += cur) : (sums.withdrawals += cur);
+      sums[cur > 0 ? 'deposits' : 'withdrawals'] += cur;
+      return sums;
+    },
+    { deposits: 0, withdrawals: 0 },
+  );
+console.log(deposits, withdrawals);
+
+// 4.
+const convertTitleCase = function (title) {
+  const capitalize = str => str[0].toUpperCase() + str.slice(1);
+
+  const exceptions = [
+    'a',
+    'an',
+    'and',
+    'the',
+    'but',
+    'or',
+    'on',
+    'in',
+    'with',
+    'is',
+  ];
+
+  const titleCase = title
+    .toLowerCase()
+    .split(' ')
+    .map(word => (exceptions.includes(word) ? word : capitalize(word)))
+    .join(' ');
+
+  return capitalize(titleCase);
+};
+
+console.log(convertTitleCase('this is a nice title'));
+console.log(convertTitleCase('this is a LONG title but not too long'));
+console.log(convertTitleCase('and here is another title with an EXAMPLE'));
