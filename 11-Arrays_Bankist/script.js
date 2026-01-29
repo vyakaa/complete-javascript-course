@@ -218,8 +218,7 @@ btnSort.addEventListener('click', function (e) {
   sorted = !sorted;
 });
 
-/////////////////////////////////////////////////
-
+// LECTURES
 let arr = ['a', 'b', 'c', 'd', 'e'];
 
 // SLICE
