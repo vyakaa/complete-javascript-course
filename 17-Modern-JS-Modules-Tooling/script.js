@@ -15,7 +15,7 @@
 
 // import * as ShoppingCart from './shoppingCart.js';
 // ShoppingCart.addToCart('bread', 5);
-// console.log(ShoppingCart.totalPrice, ShoppingCart.totalQuantity);
+// console.log(ShoppingCart.totalPrice, ShoppingCart.totalQuantity);*/
 
 // Import default export
 // Do not mix default and named imports in one statement!
@@ -34,7 +34,7 @@ console.log(cart);
 // console.log(data);
 // console.log('Something');
 
-const getLastPost = async function () {
+/*const getLastPost = async function () {
   const res = await fetch('https://jsonplaceholder.typicode.com/posts');
   const data = await res.json();
 
@@ -52,7 +52,7 @@ console.log(lastPost2);
 
 // The module pattern. The main goal of the module pattern is to encapsulate code and data in a module, so that it is not accessible from the outside
 // IIFE
-const ShoppingCart2 = (function () {
+/*const ShoppingCart2 = (function () {
   const cart = [];
   const shippingCost = 10;
   const totalPrice = 237;
@@ -80,7 +80,7 @@ const ShoppingCart2 = (function () {
 ShoppingCart2.addToCart('apple', 4);
 ShoppingCart2.addToCart('pizza', 2);
 console.log(ShoppingCart2);
-console.log(ShoppingCart2.shippingCost); // undefined
+console.log(ShoppingCart2.shippingCost); // undefined */
 
 // CommonJS modules - used in Node.js, not in the browser. Each file is a module, and we export values from the module using module.exports, and import values using require().
 // ES6 modules - used in the browser and in Node.js. Each file is a module, and we export values from the module using export, and import values using import.
@@ -88,12 +88,41 @@ console.log(ShoppingCart2.shippingCost); // undefined
 // Note: In ES6 modules, the top-level code is executed only once, when the module is first imported. So if we import the same module multiple times, the top-level code will not be executed again. This is different from CommonJS modules, where the top-level code is executed every time the module is imported.
 
 // Export for Node.js - CommonJS part
-export.addToCart = function (product, quantity) {
-  cart.push({ product, quantity });
-  console.log(
-    `${quantity} ${product} added to cart (shipping cost is ${shippingCost})`,
-  );
+// export.addToCart = function (product, quantity) {
+//   cart.push({ product, quantity });
+//   console.log(
+//     `${quantity} ${product} added to cart (shipping cost is ${shippingCost})`,
+//   );
+// };
+
+// Import for Node.js - CommonJS part
+// const { addToCart } = require('./shoppingCart.js');
+
+// Introduction to NPM
+// import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
+import cloneDeep from 'lodash-es';
+
+const state = {
+  cart: [
+    {
+      product: 'bread',
+      quantity: 5,
+    },
+    { product: 'pizza', quantity: 5 },
+  ],
+  user: { loggedIn: true },
 };
 
-// Import for Node.js - CommonJS part 
-const { addToCart } = require('./shoppingCart.js');
+const stateClone = Object.assign({}, state);
+
+// lodash function
+const stateDeepClone = cloneDeep(state);
+state.user.loggedIn = false;
+console.log(stateClone);
+
+console.log(stateDeepClone);
+
+// Hot module replacement
+if (module.hot) {
+  module.hot.accept();
+}

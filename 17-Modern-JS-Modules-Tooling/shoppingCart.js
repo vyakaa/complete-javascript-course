@@ -2,9 +2,9 @@
 console.log('Exporting module');
 
 // Blocking code - this will block the entire module, so we should avoid it in real projects
-console.log('Start fetching users');
-await fetch('https://jsonplaceholder.typicode.com/users');
-console.log('Finish fetching users');
+// console.log('Start fetching users');
+// await fetch('https://jsonplaceholder.typicode.com/users');
+// console.log('Finish fetching users');
 
 const shippingCost = 10;
 
